@@ -161,7 +161,8 @@ def gen_question_responses(message):
             f'neither',
             f'idfk stop asking me questions',
             f'you ask way too much of me dawg',
-            f'I will fucking ban you bro'
+            f'I will fucking ban you bro',
+            f'I will fuck you'
         ]
         return random.choice(responses)
     elif "what" in asLower:
@@ -172,7 +173,8 @@ def gen_question_responses(message):
             f'some za bro',
             f'idfk stop asking me questions',
             f'you ask way too much of me dawg',
-            f'I will fucking ban you bro'
+            f'I will fucking ban you bro',
+            f'I will fuck you'
         ]
         return random.choice(responses)
     elif "when" in asLower:
@@ -190,7 +192,8 @@ def gen_question_responses(message):
             f'who fuckin cares bro',
             f'idfk stop asking me questions',
             f'you ask way too much of me dawg',
-            f'I will fucking ban you bro'
+            f'I will fucking ban you bro',
+            f'I will fuck you'
         ]
         return random.choice(responses)
     elif "where" in asLower:
@@ -207,7 +210,8 @@ def gen_question_responses(message):
             f'Rapan',
             f'idfk stop asking me questions',
             f'you ask way too much of me dawg',
-            f'I will fucking ban you bro'
+            f'I will fucking ban you bro',
+            f'I will fuck you'
         ]
         return random.choice(responses)
     elif "why" in asLower:
@@ -221,7 +225,34 @@ def gen_question_responses(message):
             f"why even ask such a dumb question",
             f'idfk stop asking me questions',
             f'you ask way too much of me dawg',
-            f'I will fucking ban you bro'
+            f'I will fucking ban you bro',
+            f'I will fuck you'
+        ]
+        return random.choice(responses)
+    elif "how" in asLower and "are" in asLower:
+        responses = [
+            f'im alright i guess, but you on the other hand.. bastid',
+            f'i will shit on you',
+            f'well i was doing fine until you showed up',
+            f'was great until right now actually, thanks',
+            f"I'm actually doing shit, thanks for asking",
+            f"shut uuuuuuuuuuup",
+            f"idfk",
+            f"stop asking me shit",
+            f"why even ask such a dumb question",
+            f'idfk stop asking me questions',
+            f'I will fucking ban you bro',
+            f'I will fuck you'
+        ]
+        return random.choice(responses)
+    elif "how" in asLower:
+        responses = [
+            f"idfk",
+            f"stop asking me shit",
+            f"why even ask such a dumb question",
+            f'idfk stop asking me questions',
+            f'I will fucking ban you bro',
+            f'I will fuck you'
         ]
         return random.choice(responses)
     elif "is" in asLower or "do" in asLower or "would" in asLower or "will" in asLower:
@@ -239,7 +270,8 @@ def gen_question_responses(message):
             f"idk"
             f'idfk stop asking me questions',
             f'you ask way too much of me dawg',
-            f'I will fucking ban you bro'
+            f'I will fucking ban you bro',
+            f'I will fuck you'
         ]
         return random.choice(responses)
 
