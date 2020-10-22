@@ -2,6 +2,7 @@
 import os
 import random
 import asyncio
+import sys
 
 import discord
 
@@ -9,6 +10,9 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client()
+
+def print_to_stdout(*a):
+    print(*a, file = sys.stdout)
 
 async def random_mention_task():
     await client.wait_until_ready()
@@ -56,7 +60,7 @@ async def random_mention_task():
                 """<@{toWho} Has it not occurred to you that the voice you've read my post in is in fact the voice in your head? It's your voice, it bears your tone, and your judgement values. How about this: Why are you being a little bitch? I am the matriarch of redditarian gang banging, dear. Do you not know who I am? I am desperately lonely. Are you trying to be my friend? Because you've got an interesting way of going about it. I'm ok with this, I can work with this, this is what we do. I do this. (That's an ICP reference. Get it?) Or am I wrong? Are you hurt or offended by something I said? Have I wronged you somehow? Are you upset? Do you feel trolled? As your friend, I feel obliged to inform you that if you said "yes" to any of these questions, you might be misattributing things to me which do not exist. If you don't understand what that means, how about don't sit there and tell me I'm both somehow subjective and also wrong. You can't have it both ways. So what's it going to be, chummer? I am The House. And The House says the door is open. Are you going to walk in here, fuck my shit up, and steal my properties? Ok, that's rude. We could also just chill. If I think I'm someone who thinks they're deeper than they actually are, then clearly I must dig deeper. I died once, true story. Listen... everything I've said in this thread... you must read in a voice with a friendly tone. And before you interrupted me, a youthful jubilence. You're abrasive, I'm sure you already know that. I understand I can be abrasive as well. I can understand you, I need you to understand me. If you don't understand me, we can't be friends. If we can't be friends, then you best get to stepping because you're in my way. Are you good?"""
             ]
 
-            print('randomly mentioning a bastid')
+            print_to_stdout('randomly mentioning a bastid')
             channel = discord.utils.get(guild.text_channels, name="general")
             await channel.send(random.choice(random_mentions))
 
@@ -109,14 +113,14 @@ async def random_message_task():
                 So anyways, fuck the moon."""
             ]
 
-            print('randomly messaging the bastids')
+            print_to_stdout('randomly messaging the bastids')
             channel = discord.utils.get(guild.text_channels, name="general")
             await channel.send(random.choice(random_messages))
 
         await asyncio.sleep(3600)
 
 async def greet_bastids(guild):
-    print('Greeting the bastids')
+    print_to_stdout('Greeting the bastids')
     greetings = [
         f'Sup bastids I am back',
         f'I am BastidBot, and you are all bastids',
@@ -240,7 +244,7 @@ def gen_question_responses(message):
         return random.choice(responses)
 
 async def respond_to_mention(message):
-    print("Responding to mention")
+    print_to_stdout("Responding to mention")
     await asyncio.sleep(1.5)
 
     if is_question(message.content):
@@ -266,6 +270,10 @@ async def respond_to_mention(message):
         response = random.choice(responses)
 
     await message.channel.send(response)
+
+@client.event
+async def on_error(event):
+    print_to_stdout(event)
 
 @client.event
 async def on_message(message):
@@ -300,12 +308,12 @@ async def on_message(message):
 
     sendChance = random.randint(1,100)
     if sendChance < 3:
-        print("responding to a bastid")
+        print_to_stdout("responding to a bastid")
         await asyncio.sleep(1.5)
         response = random.choice(responses)
         await message.channel.send(response)
     elif sendChance < 15:
-        print("reacting to a bastid")
+        print_to_stdout("reacting to a bastid")
         await asyncio.sleep(1.5)
         reactions = [
             '💩',
@@ -319,16 +327,14 @@ async def on_message(message):
 @client.event
 async def on_ready():
     guild = discord.utils.get(client.guilds, name=GUILD)
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-    )
+    print_to_stdout(f'{client.user} is connected to the following guild:\n'
+    f'{guild.name}(id: {guild.id})')
 
     await greet_bastids(guild)
 
 @client.event
 async def on_member_join(member):
-    print(f'Greeting new member member.name')
+    print_to_stdout(f'Greeting new member {member.name}')
     greetings = [
         f'Hi <@{member.id}>, you utter bastid',
         f'Hey <@{member.id}>, you *bastid*',
