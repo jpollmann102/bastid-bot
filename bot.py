@@ -315,12 +315,12 @@ async def respond_to_mention(message):
     print_to_stdout("Responding to mention")
     await asyncio.sleep(1.5)
 
-    if is_question(message.content):
-        question_response = gen_question_responses(message.content)
-        response = question_response
-    elif is_search(message.content):
+    if is_search(message.content):
         search_response = get_search_response(message.content)
         response = search_response
+    elif is_question(message.content):
+        question_response = gen_question_responses(message.content)
+        response = question_response
     else:
         responses = [
             f'Wtf do you want <@{message.author.id}>?',
