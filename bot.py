@@ -3,8 +3,8 @@ import os
 import random
 import asyncio
 import sys
+from googlesearch import search
 from datetime import datetime, time
-
 import discord
 
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -78,7 +78,7 @@ async def random_mention_task():
             channel = discord.utils.get(guild.text_channels, name="general")
             await channel.send(random.choice(random_mentions))
 
-        await asyncio.sleep(360)
+        await asyncio.sleep(1800)
 
 async def random_message_task():
     await client.wait_until_ready()
@@ -131,7 +131,7 @@ async def random_message_task():
             channel = discord.utils.get(guild.text_channels, name="general")
             await channel.send(random.choice(random_messages))
 
-        await asyncio.sleep(360)
+        await asyncio.sleep(1800)
 
 async def greet_bastids(guild):
     print_to_stdout('Greeting the bastids')
@@ -160,6 +160,10 @@ def is_question(message):
     for question in question_phrases:
         if question in message: return True
     return False
+
+def is_search(message):
+    if "!search" in message: return True
+    else: return False
 
 def gen_question_responses(message):
     asLower = message.lower()
@@ -289,6 +293,24 @@ def gen_question_responses(message):
         ]
         return random.choice(responses)
 
+def get_search_response(message):
+    query = message.content.split(" !search ")
+    if len(query) < 2: return "Fuck off bro, you have to give me a search after !search"
+
+    query = query[1]
+    results = search(query, tld="co.in", num=1, stop=1, pause=2)
+    prefixes = [
+        'here ya go bastid: ',
+        "don't ask me to do anything for you again: ",
+        "dumb question but here: ",
+        "dumb question but whatever: ",
+        "baaaastiiiiid: ",
+        "are you dumb stupid or dumb? here: ",
+        "you couldn't just do this yourself you bastid? ",
+        "lazy ass: "
+    ]
+    return random.choice(prefixes) + results[0]
+
 async def respond_to_mention(message):
     print_to_stdout("Responding to mention")
     await asyncio.sleep(1.5)
@@ -296,6 +318,9 @@ async def respond_to_mention(message):
     if is_question(message.content):
         question_response = gen_question_responses(message.content)
         response = question_response
+    elif is_search(message.content):
+        search_response = get_search_response(message.content)
+        response = search_response
     else:
         responses = [
             f'Wtf do you want <@{message.author.id}>?',
