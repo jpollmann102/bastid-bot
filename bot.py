@@ -426,7 +426,7 @@ async def on_message(message):
     ]
 
     sendChance = random.randint(1,100)
-    if sendChance < 3:
+    if sendChance < 15:
         print_to_stdout("responding to a bastid")
         await asyncio.sleep(1.5)
         response = random.choice(responses)
