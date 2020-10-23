@@ -3,6 +3,7 @@ import os
 import random
 import asyncio
 import sys
+from datetime import datetime, time
 
 import discord
 
@@ -10,6 +11,14 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client()
+
+def is_time_between(begin, end, check_time=None):
+    # If check time is not given, default to current UTC time
+    check_time = check_time or datetime.utcnow().time()
+    if begin_time < end_time:
+        return check_time >= begin_time and check_time <= end_time
+    else: # crosses midnight
+        return check_time >= begin_time or check_time <= end_time
 
 def print_to_stdout(*a):
     print(*a, file = sys.stdout)
@@ -25,6 +34,10 @@ async def random_mention_task():
     preenis = "449598963029377025"
 
     while True:
+        now = datetime.now()
+        if time(8,0) <= now.time() <= (9,0):
+            # morning time, greet the bastids
+            await greet_bastids(guild)
         toWho = jake
         sendChance = random.randint(1,100)
         if sendChance < 3:
@@ -64,7 +77,7 @@ async def random_mention_task():
             channel = discord.utils.get(guild.text_channels, name="general")
             await channel.send(random.choice(random_mentions))
 
-        await asyncio.sleep(350)
+        await asyncio.sleep(360)
 
 async def random_message_task():
     await client.wait_until_ready()
@@ -117,7 +130,7 @@ async def random_message_task():
             channel = discord.utils.get(guild.text_channels, name="general")
             await channel.send(random.choice(random_messages))
 
-        await asyncio.sleep(3600)
+        await asyncio.sleep(360)
 
 async def greet_bastids(guild):
     print_to_stdout('Greeting the bastids')
@@ -278,7 +291,7 @@ def gen_question_responses(message):
 async def respond_to_mention(message):
     print_to_stdout("Responding to mention")
     await asyncio.sleep(1.5)
-
+on
     if is_question(message.content):
         question_response = gen_question_responses(message.content)
         response = question_response
