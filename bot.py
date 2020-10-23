@@ -38,6 +38,7 @@ async def random_mention_task():
         if time(8,0) <= now.time() <= (9,0):
             # morning time, greet the bastids
             await greet_bastids(guild)
+
         toWho = jake
         sendChance = random.randint(1,100)
         if sendChance < 3:
@@ -291,7 +292,7 @@ def gen_question_responses(message):
 async def respond_to_mention(message):
     print_to_stdout("Responding to mention")
     await asyncio.sleep(1.5)
-on
+
     if is_question(message.content):
         question_response = gen_question_responses(message.content)
         response = question_response
