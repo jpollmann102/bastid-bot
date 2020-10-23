@@ -165,6 +165,26 @@ def is_search(message):
     if "!search" in message: return True
     else: return False
 
+def is_help(message):
+    if "!help" in message: return True
+    else: return False
+
+def is_bastid_request(message):
+    if "!bastid" in message: return True
+    else: return False
+
+def get_help_response():
+    prefixes = [
+        'here ya go dummy\n',
+        'here are the commands I can do for you bastids\n',
+        'HERE IS MY PROGRAMMING, BASTIDS\n',
+        'bastid:\n',
+        'dumb arse:\n',
+        ':unamused: here:\n'
+    ]
+    commands = "!help for commands\n!search <query> for searching\n!bastid <mention> for calling someone else a bastid\n"
+    return random.choice(prefixes) + commands
+
 def gen_question_responses(message):
     asLower = message.lower()
     if "who" in asLower:
@@ -295,7 +315,7 @@ def gen_question_responses(message):
 
 def get_search_response(message):
     query = message.split(" !search ")
-    if len(query) < 2: return "Fuck off bro, you have to give me a search after !search"
+    if len(query) < 2 or query[1] == '': return "Fuck off bro, you have to give me a search after !search"
     if len(query) > 2: return "Hey dumbass, format is @me !search <query>"
     query = query[1]
     prefixes = [
@@ -311,6 +331,29 @@ def get_search_response(message):
     for j in search(query, tld="co.in", num=1, stop=1, pause=2):
         return random.choice(prefixes) + j
 
+async def bastid_request(message):
+    split = message.content.split(" !bastid ")
+    if len(split) < 2 or split[1] == '': return f"You know what, you coudn't even do this command right. <@{message.author.id}> you're the real bastid here"
+
+    for mention in message.mentions[1:]:
+        await call_someone_bastid(mention)
+
+async def call_someone_bastid(user):
+    guild = discord.utils.get(client.guilds, name=GUILD)
+    channel = discord.utils.get(guild.text_channels, name="general")
+    prefixes = [
+        f"hey you're a bastid, <@{user.id}>",
+        f"baaaastiiiiid <@{user.id}>",
+        f"BASTID BASTID BASTID <@{user.id}>",
+        f"Guess who's a bastid? It's <@{user.id}>",
+        f"Bastid alert :rotating_light: <@{user.id}>",
+        f"bastid <@{user.id}>",
+        f"<@{user.id}> you are a certified bastid",
+        f"bastid mcbastid <@{user.id}>"
+    ]
+    response = random.choice(prefixes)
+    await channel.send(response)
+
 async def respond_to_mention(message):
     print_to_stdout("Responding to mention")
     await asyncio.sleep(1.5)
@@ -318,6 +361,11 @@ async def respond_to_mention(message):
     if is_search(message.content):
         search_response = get_search_response(message.content)
         response = search_response
+    elif is_help(message.content):
+        response = get_help_response()
+    elif is_bastid_request(message.content):
+        response = await bastid_request(message)
+        return
     elif is_question(message.content):
         question_response = gen_question_responses(message.content)
         response = question_response
