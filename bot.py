@@ -35,7 +35,7 @@ async def random_mention_task():
 
     while True:
         now = datetime.now()
-        if time(8,0) <= now.time() <= (9,0):
+        if time(8,0) <= now.time() <= time(9,0):
             # morning time, greet the bastids
             await greet_bastids(guild)
 
@@ -294,11 +294,10 @@ def gen_question_responses(message):
         return random.choice(responses)
 
 def get_search_response(message):
-    query = message.content.split(" !search ")
+    query = message.split(" !search ")
     if len(query) < 2: return "Fuck off bro, you have to give me a search after !search"
-
+    if len(query) > 2: return "Hey dumbass, format is @me !search <query>"
     query = query[1]
-    results = search(query, tld="co.in", num=1, stop=1, pause=2)
     prefixes = [
         'here ya go bastid: ',
         "don't ask me to do anything for you again: ",
@@ -309,7 +308,8 @@ def get_search_response(message):
         "you couldn't just do this yourself you bastid? ",
         "lazy ass: "
     ]
-    return random.choice(prefixes) + results[0]
+    for j in search(query, tld="co.in", num=1, stop=1, pause=2):
+        return random.choice(prefixes) + j
 
 async def respond_to_mention(message):
     print_to_stdout("Responding to mention")
