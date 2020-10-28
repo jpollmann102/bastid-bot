@@ -41,7 +41,7 @@ async def random_mention_task():
 
         toWho = jake
         sendChance = random.randint(1,100)
-        if sendChance < 3:
+        if sendChance < 15:
             toWhoChance = random.randint(1, 100)
             if toWhoChance < 76:
                 toWho = random.choice([jake, vicc])
@@ -87,7 +87,7 @@ async def random_message_task():
 
     while True:
         sendChance = random.randint(1,100)
-        if sendChance < 40:
+        if sendChance < 15:
             random_messages = [
                 f'Hey yall :wink:',
                 f'Hey all you sexy bastids :smirk:',
@@ -426,7 +426,7 @@ async def on_message(message):
     ]
 
     sendChance = random.randint(1,100)
-    if sendChance < 15:
+    if sendChance < 25:
         print_to_stdout("responding to a bastid")
         await asyncio.sleep(1.5)
         response = random.choice(responses)
