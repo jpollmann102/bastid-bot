@@ -6,7 +6,9 @@ import sys
 from googlesearch import search
 from datetime import datetime, time
 import discord
+from dotenv import load_dotenv
 
+load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
@@ -41,7 +43,7 @@ async def random_mention_task():
 
         toWho = jake
         sendChance = random.randint(1,100)
-        if sendChance < 15:
+        if sendChance < 6:
             toWhoChance = random.randint(1, 100)
             if toWhoChance < 76:
                 toWho = random.choice([jake, vicc])
@@ -87,7 +89,7 @@ async def random_message_task():
 
     while True:
         sendChance = random.randint(1,100)
-        if sendChance < 15:
+        if sendChance < 6:
             random_messages = [
                 f'Hey yall :wink:',
                 f'Hey all you sexy bastids :smirk:',
